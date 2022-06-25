@@ -3,6 +3,7 @@ package com.otavio.curso.demo.dao;
 import java.util.List;
 
 import com.otavio.curso.demo.domain.Cargo;
+import com.otavio.curso.demo.util.PaginacaoUtil;
 
 public interface CargoDao {
 
@@ -15,4 +16,6 @@ public interface CargoDao {
 	Cargo findById(Long id);
 	
 	List<Cargo> findAll();
+	
+	PaginacaoUtil<Cargo> buscaPaginada(int pagina, String direcao);
 }

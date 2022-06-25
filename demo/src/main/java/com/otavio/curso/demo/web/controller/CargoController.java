@@ -1,6 +1,7 @@
 package com.otavio.curso.demo.web.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
@@ -13,12 +14,14 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.otavio.curso.demo.domain.Cargo;
 import com.otavio.curso.demo.domain.Departamento;
 import com.otavio.curso.demo.service.CargoService;
 import com.otavio.curso.demo.service.DepartamentoService;
+import com.otavio.curso.demo.util.PaginacaoUtil;
 
 @Controller
 @RequestMapping("/cargos")
@@ -37,9 +40,17 @@ public class CargoController {
 	}
 	
 	@GetMapping("/listar")
-	public String listar(ModelMap model) {
+	public String listar(ModelMap model,
+			@RequestParam("page") Optional<Integer> page,
+			@RequestParam("dir") Optional<String> dir) {
 		
-		model.addAttribute("cargos", cargoService.buscarTodos());
+		int paginalAtual = page.orElse(1);		// padrão da consulta é 1
+		String ordem = dir.orElse("asc");		// padrão da consulta é asc
+		
+		PaginacaoUtil<Cargo> pageCargo = cargoService.buscaPorPagina(paginalAtual, ordem);
+		
+		model.addAttribute("pageCargo", pageCargo);
+		
 		return "cargo/lista";
 	}
 	

@@ -3,6 +3,7 @@ package com.otavio.curso.demo.service;
 import java.util.List;
 
 import com.otavio.curso.demo.domain.Cargo;
+import com.otavio.curso.demo.util.PaginacaoUtil;
 
 public interface CargoService {
 
@@ -18,4 +19,5 @@ public interface CargoService {
 	
 	boolean cargoTemFuncionarios(Long id);
 	
+	PaginacaoUtil<Cargo> buscaPorPagina(int pagina, String direcao);
 }
